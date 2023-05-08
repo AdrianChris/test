@@ -6,7 +6,7 @@
 
 #define MAX_COMMIT_MESSAGE_LENGTH 512
 #define MAX_INPUT_LENGTH 256
-#define MAX_COMMAND_LENGTH 1024 // Increased buffer size for git commit command
+#define MAX_COMMAND_LENGTH 1024
 
 int fileExists(const char *filename)
 {
@@ -65,18 +65,19 @@ int main()
     for (int i = 0; i < fileCount; i++)
     {
         char gitAddCommand[MAX_COMMAND_LENGTH];
-        snprintf(gitAddCommand, sizeof(gitAddCommand), "git add %s", files[i]);
+        snprintf(gitAddCommand, sizeof(gitAddCommand), "git add %s > /dev/null 2>&1", files[i]);
         system(gitAddCommand);
     }
 
     // Commit the changes with the custom commit message
     char gitCommitCommand[MAX_COMMAND_LENGTH];
-    snprintf(gitCommitCommand, sizeof(gitCommitCommand), "git commit -m \"%s\"", commitMessage);
+    snprintf(gitCommitCommand, sizeof(gitCommitCommand), "git commit -m \"%s\" > /dev/null 2>&1", commitMessage);
     system(gitCommitCommand);
 
     // Push the changes to Git
-    system("git push");
-    printf("Files updated succesfully");
+    system("git push > /dev/null 2>&1");
+
+    printf("Git operations completed successfully.\n");
 
     return 0;
 }
