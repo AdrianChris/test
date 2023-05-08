@@ -76,6 +76,7 @@ int main()
 
     // Push the changes to Git
     system("git push");
+    printf("Files updated succesfully");
 
     return 0;
 }
